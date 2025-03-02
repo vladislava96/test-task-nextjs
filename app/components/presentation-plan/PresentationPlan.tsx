@@ -1,8 +1,11 @@
 "use client"
 
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import React, { CSSProperties, useState } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from "react-beautiful-dnd";
+import SlideForm from "../slide-form/SlideForm";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 interface ListData {
   id: string;
@@ -25,7 +28,7 @@ const reorder = (list: ListData[], startIndex: number, endIndex: number) => {
 
 const grid = 8;
 
-const getItemStyle = (isDragging: boolean, draggableStyle?: DraggingStyle | NotDraggingStyle ): CSSProperties => ({
+const getItemStyle = (isDragging: boolean, draggableStyle?: DraggingStyle | NotDraggingStyle): CSSProperties => ({
   userSelect: "none",
   padding: grid * 2,
 
@@ -77,13 +80,33 @@ export default function DnD() {
                       provided.draggableProps.style
                     )}
                   >
-                    <Card className="box-border p-4 w-2xl">
-                      <CardTitle>
-                        Title
-                      </CardTitle>
-                      <CardDescription>
-                        {item.content}
-                      </CardDescription>
+                    {/* <Card className="box-border p-4 w-2xl"> */}
+                    <Card className="max-w-[800px]">
+                      <CardHeader>
+                        <CardTitle>
+                          Title
+                        </CardTitle>
+                        <CardDescription>
+                          {item.content}
+                          <p>This project and the components are written in TypeScript. We recommend using TypeScript for your project as well.
+                          However we provide a JavaScript version of the components as well. The JavaScript version is available via the cli.
+                          To opt-out of TypeScript, you can use the tsx flag in your components.json file.</p>
+                        </CardDescription>
+                      </CardHeader>
+                      <CardFooter className="flex justify-end gap-x-4">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="outline">Edit</Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>About slide</DialogTitle>
+                            </DialogHeader>
+                            <SlideForm/>
+                          </DialogContent>
+                        </Dialog>
+                        <Button variant="outline">Delete</Button>
+                      </CardFooter>
                     </Card>
                   </div>
                 )}
