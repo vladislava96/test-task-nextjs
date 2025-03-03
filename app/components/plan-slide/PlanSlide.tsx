@@ -31,7 +31,7 @@ export default function PlanSlide({ content }: PlanSlideProps) {
           <DialogHeader>
               <DialogTitle>About slide</DialogTitle>
           </DialogHeader>
-          <SlideForm/>
+          <SlideForm usage="edit"/>
           </DialogContent>
       </Dialog>
       <Button variant="outline">Delete</Button>

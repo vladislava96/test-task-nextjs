@@ -28,8 +28,13 @@ const FormSchema = z.object({
       message: "To get better results input no less than 2 symbols.",
   })
 })
- 
-export default function SlideForm() {
+
+
+interface SlideFormProps {
+  usage: 'add' | 'edit'
+}
+
+export default function SlideForm({ usage }: SlideFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
@@ -71,7 +76,7 @@ export default function SlideForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Save</Button>
+        <Button type="submit">{usage === "edit" ? "Save": "Add"}</Button>
       </form>
     </Form>
   )
