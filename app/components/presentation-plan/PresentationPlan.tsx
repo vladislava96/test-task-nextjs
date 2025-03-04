@@ -40,9 +40,7 @@ const getListStyle = (isDraggingOver: boolean) => ({
 
 export default function DnD() {
   const dispatch = useAppDispatch();
-
   const selectItems = useAppSelector(selectSlides);
-
   const [items, setItems] = useState<Slide[]>([]);
 
   useEffect(() => {
@@ -51,7 +49,7 @@ export default function DnD() {
   }, [dispatch]);
 
   useEffect(() => {
-    setItems(selectItems);
+    setItems([...selectItems]);
   }, [selectItems]);
 
   function onDragEnd(result: DropResult) {

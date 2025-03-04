@@ -3,13 +3,20 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import SlideForm from "../slide-form/SlideForm";
-import { Slide } from "@/lib/features/generation-form/generationFormSlice";
+import { Slide, slideRemoved } from "@/lib/features/generation-form/generationFormSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 interface PlanSlideProps {
   item: Slide
 }
 
 export default function PlanSlide({ item }: PlanSlideProps) {
+  const dispatch = useAppDispatch();
+
+  function handleDelete() {
+    dispatch(slideRemoved(item.id))
+  }
+
   return (
     <Card className="max-w-[800px]">
       <CardHeader>
@@ -32,7 +39,7 @@ export default function PlanSlide({ item }: PlanSlideProps) {
           <SlideForm usage="edit"/>
           </DialogContent>
       </Dialog>
-      <Button variant="outline">Delete</Button>
+      <Button variant="outline" onClick={handleDelete}>Delete</Button>
       </CardFooter>
     </Card>
   )

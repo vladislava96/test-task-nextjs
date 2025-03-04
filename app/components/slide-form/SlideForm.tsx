@@ -15,6 +15,9 @@ import {
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
+import { useAppDispatch } from "@/lib/hooks"
+import { slideAdded } from "@/lib/features/generation-form/generationFormSlice"
+import { v6 as uuidv6 } from 'uuid';
  
 const FormSchema = z.object({
   slide_description: z
@@ -29,7 +32,6 @@ const FormSchema = z.object({
   })
 })
 
-
 interface SlideFormProps {
   usage: 'add' | 'edit'
 }
@@ -37,12 +39,28 @@ interface SlideFormProps {
 export default function SlideForm({ usage }: SlideFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      slide_title: "",
+      slide_description: ""
+    },
   })
- 
-  function onSubmit() {
 
-  }
+  const dispatch = useAppDispatch();
  
+  function onSubmit(values: z.infer<typeof FormSchema>) {
+    if (usage === 'add') {
+      console.log('submit')
+
+    const newId = uuidv6();
+
+      dispatch(slideAdded({
+        id: newId,
+        title: `${values.slide_title}`,
+        content: `${values.slide_description}`
+      }))
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

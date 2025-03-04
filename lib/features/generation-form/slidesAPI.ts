@@ -13,21 +13,3 @@ export const fetchSlides = async (): Promise<Slide[]> => {
     throw error;
   }
 };
-
-export const fetchPresentationDescription = async (description: string) => {
-  try {
-    const response = await fetch("", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(description),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to fetch description: ${response.statusText}`);
-    }
-    const result: string = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error fetching description:", error);
-    throw error;
-  }
-};

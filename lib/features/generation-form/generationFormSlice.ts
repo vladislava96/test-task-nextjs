@@ -1,6 +1,6 @@
 import { createAppSlice } from "@/lib/createAppSlice";
 import { createAsyncThunk, createEntityAdapter, PayloadAction } from "@reduxjs/toolkit";
-import { fetchPresentationDescription, fetchSlides } from "./slidesAPI";
+import { fetchSlides } from "./slidesAPI";
 
 export interface Slide {
   id: string;
@@ -25,22 +25,16 @@ export const fetchSlidesAsync = createAsyncThunk(
   }
 );
 
-// export const fetchPresentationDescriptionAsync = createAsyncThunk(
-//   "generation/fetchPresentationDescription",
-//   async (description: string) => {
-//     const response = await fetchPresentationDescription(description);
-//     return response;
-//   }
-// );
-
 export const slidesSlice = createAppSlice({
   name: "generation",
   initialState,
-  reducers: (create) => ({
-    setPresentationDescription: create.reducer((state, action: PayloadAction<string>) => {
+  reducers: {
+    setPresentationDescription(state, action: PayloadAction<string>) {
       state.description = action.payload;
-    }),
-  }),
+    },
+    slideAdded: slidesAdapter.addOne,
+    slideRemoved: slidesAdapter.removeOne
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchSlidesAsync.pending, (state) => {
         state.status = "loading";
@@ -52,16 +46,6 @@ export const slidesSlice = createAppSlice({
     builder.addCase(fetchSlidesAsync.rejected, (state) => {
         state.status = "failed";
       });
-    // builder.addCase(fetchPresentationDescriptionAsync.pending, (state) => {
-    //     state.status = "loading";
-    //   });
-    // builder.addCase(fetchPresentationDescriptionAsync.fulfilled, (state, action) => {
-    //     state.status = "idle";
-    //     state.description = action.payload;
-    //   });
-    // builder.addCase(fetchPresentationDescriptionAsync.rejected, (state) => {
-    //     state.status = "failed";
-    //   });
   },
   selectors: {
     selectSlides: slidesAdapter.getSelectors().selectAll,
@@ -69,6 +53,6 @@ export const slidesSlice = createAppSlice({
   },
 });
 
-export const { setPresentationDescription } = slidesSlice.actions;
+export const { setPresentationDescription, slideAdded, slideRemoved } = slidesSlice.actions;
 
 export const { selectSlides, selectStatus } = slidesSlice.selectors;
