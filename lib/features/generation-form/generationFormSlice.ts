@@ -6,10 +6,12 @@ export interface Slide {
   id: string;
   title: string;
   content: string;
+  index: number;
 }
 
 const slidesAdapter = createEntityAdapter({
-  selectId: (slide: Slide) => slide.id
+  selectId: (slide: Slide) => slide.id,
+  sortComparer: (a, b) => a.index > b.index ? 1 : -1
 })
 
 const initialState = slidesAdapter.getInitialState({
@@ -34,7 +36,8 @@ export const slidesSlice = createAppSlice({
     },
     slideAdded: slidesAdapter.addOne,
     slideRemoved: slidesAdapter.removeOne,
-    slideUpdate: slidesAdapter.updateOne
+    slideUpdate: slidesAdapter.updateOne,
+    slidesUpdate: slidesAdapter.setAll
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSlidesAsync.pending, (state) => {
@@ -51,9 +54,10 @@ export const slidesSlice = createAppSlice({
   selectors: {
     selectSlides: slidesAdapter.getSelectors().selectAll,
     selectStatus: (generation) => generation.status,
+    selectNextIndex: (generation) => slidesAdapter.getSelectors().selectTotal(generation) + 1 
   },
 });
 
-export const { setPresentationDescription, slideAdded, slideRemoved, slideUpdate } = slidesSlice.actions;
+export const { setPresentationDescription, slideAdded, slideRemoved, slideUpdate, slidesUpdate } = slidesSlice.actions;
 
-export const { selectSlides, selectStatus } = slidesSlice.selectors;
+export const { selectSlides, selectStatus, selectNextIndex } = slidesSlice.selectors;

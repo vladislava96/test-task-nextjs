@@ -24,6 +24,7 @@ export default function PlanSlide({ item }: PlanSlideProps) {
         {item.title}
       </CardTitle>
       <CardDescription>
+        {item.id}
         {item.content}
     </CardDescription>
       </CardHeader>

@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
-import { useAppDispatch } from "@/lib/hooks"
-import { Slide, slideAdded, slideUpdate } from "@/lib/features/generation-form/generationFormSlice"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { selectNextIndex, Slide, slideAdded, slideUpdate } from "@/lib/features/generation-form/generationFormSlice"
 import { v6 as uuidv6 } from 'uuid';
  
 const FormSchema = z.object({
@@ -47,6 +47,7 @@ export default function SlideForm({ usage, item }: SlideFormProps) {
   })
 
   const dispatch = useAppDispatch();
+  const nextSlideIndex = useAppSelector(selectNextIndex);
  
   function onSubmit(values: z.infer<typeof FormSchema>) {
     if (usage === 'add') {
@@ -55,7 +56,8 @@ export default function SlideForm({ usage, item }: SlideFormProps) {
       dispatch(slideAdded({
         id: newId,
         title: `${values.slide_title}`,
-        content: `${values.slide_description}`
+        content: `${values.slide_description}`,
+        index: nextSlideIndex
       }))
     }
 
