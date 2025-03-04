@@ -33,7 +33,8 @@ export const slidesSlice = createAppSlice({
       state.description = action.payload;
     },
     slideAdded: slidesAdapter.addOne,
-    slideRemoved: slidesAdapter.removeOne
+    slideRemoved: slidesAdapter.removeOne,
+    slideUpdate: slidesAdapter.updateOne
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSlidesAsync.pending, (state) => {
@@ -53,6 +54,6 @@ export const slidesSlice = createAppSlice({
   },
 });
 
-export const { setPresentationDescription, slideAdded, slideRemoved } = slidesSlice.actions;
+export const { setPresentationDescription, slideAdded, slideRemoved, slideUpdate } = slidesSlice.actions;
 
 export const { selectSlides, selectStatus } = slidesSlice.selectors;

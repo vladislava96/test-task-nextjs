@@ -16,7 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { useAppDispatch } from "@/lib/hooks"
-import { slideAdded } from "@/lib/features/generation-form/generationFormSlice"
+import { Slide, slideAdded, slideUpdate } from "@/lib/features/generation-form/generationFormSlice"
 import { v6 as uuidv6 } from 'uuid';
  
 const FormSchema = z.object({
@@ -33,15 +33,16 @@ const FormSchema = z.object({
 })
 
 interface SlideFormProps {
-  usage: 'add' | 'edit'
+  usage: 'add' | 'edit',
+  item?: Slide
 }
 
-export default function SlideForm({ usage }: SlideFormProps) {
+export default function SlideForm({ usage, item }: SlideFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      slide_title: "",
-      slide_description: ""
+      slide_title: item?.title ?? "",
+      slide_description: item?.content ?? ""
     },
   })
 
@@ -49,8 +50,6 @@ export default function SlideForm({ usage }: SlideFormProps) {
  
   function onSubmit(values: z.infer<typeof FormSchema>) {
     if (usage === 'add') {
-      console.log('submit')
-
     const newId = uuidv6();
 
       dispatch(slideAdded({
@@ -58,6 +57,16 @@ export default function SlideForm({ usage }: SlideFormProps) {
         title: `${values.slide_title}`,
         content: `${values.slide_description}`
       }))
+    }
+
+    if (usage === 'edit' && item !== undefined) {
+      dispatch(slideUpdate({
+        id: item?.id,
+        changes: {
+          title: `${values.slide_title}`,
+          content: `${values.slide_description}`
+        }
+      })) 
     }
   }
 
