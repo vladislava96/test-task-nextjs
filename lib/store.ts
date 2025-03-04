@@ -1,18 +1,13 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "./features/counter/counterSlice";
-import { quotesApiSlice } from "./features/quotes/quotesApiSlice";
 import { slidesSlice } from "./features/generation-form/generationFormSlice";
 
-const rootReducer = combineSlices(counterSlice, quotesApiSlice, slidesSlice);
+const rootReducer = combineSlices(slidesSlice);
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const makeStore = () => {
   return configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware().concat(quotesApiSlice.middleware);
-    },
+    reducer: rootReducer
   });
 };
 

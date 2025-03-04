@@ -8,6 +8,7 @@ import SlideForm from "../components/slide-form/SlideForm";
 
 export default function IndexPage() {
   return <>
+    <h1>Edit your presentation's structure</h1>
     <PresentationPlan />
     <Dialog>
       <DialogTrigger asChild>
