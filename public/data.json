@@ -1,0 +1,27 @@
+[
+  {
+    "id": "0",
+    "title": "Introduction to the Project",
+    "content": "Brief overview of the project's goals and objectives. What problem does it solve?"
+  },
+  {
+    "id": "1",
+    "title": "Key Features and Functionality",
+    "content": "Detailed description of the main features, how they work, and their benefits."
+  },
+  {
+    "id": "2",
+    "title": "Technical Implementation",
+    "content": "Explanation of the technologies used, the architecture, and the development process."
+  },
+  {
+    "id": "3",
+    "title": "User Interface and Experience",
+    "content": "Highlights of the design philosophy, usability, and accessibility considerations."
+  },
+  {
+    "id": "4",
+    "title": "Future Plans and Roadmap",
+    "content": "Discussion of planned enhancements, new features, and long-term vision for the project."
+  }
+]

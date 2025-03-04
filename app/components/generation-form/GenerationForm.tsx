@@ -15,6 +15,10 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import styles from "./GenerationForm.module.css"
 import { Sparkles } from "lucide-react"
+import { useAppDispatch } from "@/lib/hooks"
+// import { fetchPresentationDescriptionAsync } from "@/lib/features/generation-form/generationFormSlice"
+import { redirect } from "next/navigation"
+import { setPresentationDescription } from "@/lib/features/generation-form/generationFormSlice"
  
 const FormSchema = z.object({
   presentation: z
@@ -28,11 +32,17 @@ export default function TextareaForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
+  const dispatch = useAppDispatch();
  
-  function onSubmit() {
+  function onSubmit(values: z.infer<typeof FormSchema>) {
+
+    // dispatch(fetchPresentationDescriptionAsync(values.presentation))
+
+    dispatch(setPresentationDescription(values.presentation))
+    redirect("/step-2")
 
   }
- 
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 h-4 space-y-6">

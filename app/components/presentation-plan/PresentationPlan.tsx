@@ -1,17 +1,11 @@
 "use client"
 
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from "react-beautiful-dnd";
-import SlideForm from "../slide-form/SlideForm";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import PlanSlide from "../plan-slide/PlanSlide";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { fetchSlidesAsync, selectSlides, Slide } from "@/lib/features/generation-form/generationFormSlice";
 
-export interface ListData {
-  id: string;
-  content: string;
-}
 
 const getItems = (count: number) =>
   Array.from({ length: count }, (v, k) => k).map(k => ({
@@ -19,7 +13,7 @@ const getItems = (count: number) =>
     content: `item ${k}`
   }));
 
-const reorder = (list: ListData[], startIndex: number, endIndex: number) => {
+const reorder = (list: Slide[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -45,8 +39,20 @@ const getListStyle = (isDraggingOver: boolean) => ({
 //-----------------------------------------------------
 
 export default function DnD() {
+  const dispatch = useAppDispatch();
 
-  const [items, setItems] = useState(getItems(5));
+  const selectItems = useAppSelector(selectSlides);
+
+  const [items, setItems] = useState<Slide[]>([]);
+
+  useEffect(() => {
+    const promise = dispatch(fetchSlidesAsync());
+    return () => promise.abort();
+  }, [dispatch]);
+
+  useEffect(() => {
+    setItems(selectItems);
+  }, [selectItems]);
 
   function onDragEnd(result: DropResult) {
     if (!result.destination) {
@@ -81,7 +87,7 @@ export default function DnD() {
                       provided.draggableProps.style
                     )}
                   >
-                    <PlanSlide content={item.content}/>
+                    <PlanSlide item={item}/>
                   </div>
                 )}
               </Draggable>
