@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import SlideForm from "../slide-form/SlideForm";
+import { Loader } from "../loader/Loader";
 
 const reorder = (list: Slide[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -64,7 +65,7 @@ export default function DnD() {
   return (
     <>
       {
-        generationStatus === "loading" ? <div>Loading...</div> :
+        generationStatus === "loading" ? <Loader/> :
         <div className="flex flex-col items-center">
           <DragDropContext onDragEnd={onDragEnd}>
             <StrictModeDroppable droppableId="droppable" isDropDisabled={false} isCombineEnabled={false} ignoreContainerClipping={false} direction="vertical">

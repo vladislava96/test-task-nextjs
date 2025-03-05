@@ -41,7 +41,7 @@ export default function TextareaForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/3 h-4 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[600px] h-4 space-y-6">
         <FormField
           control={form.control}
           name="presentation"
