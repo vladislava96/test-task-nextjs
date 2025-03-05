@@ -6,6 +6,10 @@ import PlanSlide from "../plan-slide/PlanSlide";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { fetchSlidesAsync, selectSlides, selectStatus, Slide, slidesUpdate } from "@/lib/features/generation-form/generationFormSlice";
 import { StrictModeDroppable } from "../strict-mode-droppable/StrictModeDroppable";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import SlideForm from "../slide-form/SlideForm";
 
 const reorder = (list: Slide[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);
@@ -61,36 +65,49 @@ export default function DnD() {
     <>
       {
         generationStatus === "loading" ? <div>Loading...</div> :
-        <DragDropContext onDragEnd={onDragEnd}>
-          <StrictModeDroppable droppableId="droppable" isDropDisabled={false} isCombineEnabled={false} ignoreContainerClipping={false} direction="vertical">
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        <PlanSlide item={item}/>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </StrictModeDroppable>
-        </DragDropContext>
+        <div className="flex flex-col items-center">
+          <DragDropContext onDragEnd={onDragEnd}>
+            <StrictModeDroppable droppableId="droppable" isDropDisabled={false} isCombineEnabled={false} ignoreContainerClipping={false} direction="vertical">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {items.map((item, index) => (
+                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          <PlanSlide item={item}/>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </StrictModeDroppable>
+          </DragDropContext>
+          <Dialog>
+            <DialogTrigger asChild>
+            <Button variant="outline"><Plus />Add Slide</Button>
+            </DialogTrigger>
+            <DialogContent>
+            <DialogHeader>
+              <DialogTitle>About slide</DialogTitle>
+            </DialogHeader>
+            <SlideForm usage="add"/>
+            </DialogContent>
+          </Dialog>
+        </div>
       }
     </>
   );

@@ -14,7 +14,7 @@ export const Nav = () => {
         className={`${styles.link} ${pathname === "/" ? styles.active : ""}`}
         href="/"
       >
-        Step 1
+        Step-1
       </Link>
       <Link
         className={`${styles.link} ${
@@ -22,7 +22,7 @@ export const Nav = () => {
         }`}
         href="/step-2"
       >
-        Step 2
+        Step-2
       </Link>
       <Link
         className={`${styles.link} ${
@@ -30,7 +30,7 @@ export const Nav = () => {
         }`}
         href="/step-3"
       >
-        Step 3
+        Step-3
       </Link>
     </nav>
   );

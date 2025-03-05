@@ -18,7 +18,7 @@ export default function PlanSlide({ item }: PlanSlideProps) {
   }
 
   return (
-    <Card className="max-w-[800px]">
+    <Card className="max-w-3xl">
       <CardHeader>
       <CardTitle>
         {item.title}
