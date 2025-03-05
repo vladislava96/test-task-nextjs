@@ -40,26 +40,28 @@ export default function TextareaForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-[600px] h-4 space-y-6">
-        <FormField
-          control={form.control}
-          name="presentation"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Textarea
-                  placeholder="Provide your presentation name, describe it in a few words. Provide color and slide count."
-                  className={`"resize-none" ${styles.formTextArea}`}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit"><Sparkles />Generate Your Presentation</Button>
-      </form>
-    </Form>
+    <div className="w-[100%] sm:w-[60%] h-[100%] flex-col flex justify-center">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="presentation"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    placeholder="Provide your presentation name, describe it in a few words (style, slide count, key points)."
+                    className={`"resize-none" ${styles.formTextArea}`}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit"><Sparkles />Generate Your Presentation</Button>
+        </form>
+      </Form>
+    </div>
   )
 }

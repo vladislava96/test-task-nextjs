@@ -1,14 +1,12 @@
 import { Metadata } from "next";
-import { Loader } from "../components/loader/Loader";
+import Progress from "../components/progress/Progress";
 
-export default function IndexPage() {
+export default function EditPage() {
   return <>
     <h1 className="text-4xl mt-6 font-bold text-center">
-      Creating a presentation
+      Your presentation is being generated…
     </h1>
-    <div className="w-[400px] h-[400px] flex justify-center items-center">
-      <Loader />
-    </div>
+      <Progress />
   </>
 }
 

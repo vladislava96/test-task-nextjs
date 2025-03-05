@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import PresentationPlan from "../components/presentation-plan/PresentationPlan";
 import PlanButtons from "../components/plan-buttons/PlanButtons";
 
-
-export default function IndexPage() {
+export default function CreationPage() {
   return <>
     <h1 className="text-4xl mt-6 font-bold text-center">
       Edit your presentation's structure

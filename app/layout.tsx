@@ -1,4 +1,5 @@
-import Image from "next/image";
+"use client"
+
 import type { ReactNode } from "react";
 import { StoreProvider } from "./StoreProvider";
 import { Nav } from "./components/Nav";
