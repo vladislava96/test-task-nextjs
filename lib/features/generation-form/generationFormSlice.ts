@@ -16,6 +16,8 @@ const slidesAdapter = createEntityAdapter({
 
 const initialState = slidesAdapter.getInitialState({
   description: '',
+  color: '',
+  slideCount: 0,
   status: "idle"
 })
 
@@ -31,8 +33,14 @@ export const slidesSlice = createAppSlice({
   name: "generation",
   initialState,
   reducers: {
-    setPresentationDescription(state, action: PayloadAction<string>) {
+    setSlideDescription(state, action: PayloadAction<string>) {
       state.description = action.payload;
+    },
+    setSlideColor(state, action: PayloadAction<string>) {
+      state.color = action.payload;
+    },
+    setSlideCount(state, action: PayloadAction<number>) {
+      state.slideCount = action.payload;
     },
     slideAdded: slidesAdapter.addOne,
     slideRemoved: slidesAdapter.removeOne,
@@ -41,23 +49,31 @@ export const slidesSlice = createAppSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSlidesAsync.pending, (state) => {
-        state.status = "loading";
-      });
+      state.status = "loading";
+    });
     builder.addCase(fetchSlidesAsync.fulfilled, (state, action) => {
-        state.status = "idle";
-        slidesAdapter.setAll(state, action.payload)
-      });
+      state.status = "idle";
+      slidesAdapter.setAll(state, action.payload)
+    });
     builder.addCase(fetchSlidesAsync.rejected, (state) => {
-        state.status = "failed";
-      });
+      state.status = "failed";
+    });
   },
   selectors: {
     selectSlides: slidesAdapter.getSelectors().selectAll,
     selectStatus: (generation) => generation.status,
-    selectNextIndex: (generation) => slidesAdapter.getSelectors().selectTotal(generation) + 1 
+    selectNextIndex: (generation) => slidesAdapter.getSelectors().selectTotal(generation) + 1,
+    selectColor: (generation) => generation.color
   },
 });
 
-export const { setPresentationDescription, slideAdded, slideRemoved, slideUpdate, slidesUpdate } = slidesSlice.actions;
+export const {
+  setSlideDescription,
+  setSlideColor,
+  setSlideCount,
+  slideAdded,
+  slideRemoved,
+  slideUpdate,
+  slidesUpdate } = slidesSlice.actions;
 
-export const { selectSlides, selectStatus, selectNextIndex } = slidesSlice.selectors;
+export const { selectSlides, selectStatus, selectNextIndex, selectColor } = slidesSlice.selectors;
