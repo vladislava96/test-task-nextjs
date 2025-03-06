@@ -18,12 +18,9 @@ export default function RootLayout({ children }: Props) {
         <body>
           <section className={styles.container}>
             <Nav />
-
             <header className={styles.header}>
             </header>
-
             <main className={styles.main}>{children}</main>
-
             <footer className={styles.footer}>
             </footer>
           </section>

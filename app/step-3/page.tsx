@@ -6,7 +6,7 @@ export default function EditPage() {
     <h1 className="text-4xl mt-6 font-bold text-center">
       Your presentation is being generated…
     </h1>
-      <Progress />
+    <Progress />
   </>
 }
 

@@ -44,7 +44,7 @@ export default function TextareaForm() {
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
     dispatch(setSlideDescription(values.description));
-    dispatch(setSlideCount(values.count))
+    dispatch(setSlideCount(values.count));
     redirect("/step-2")
   }
 

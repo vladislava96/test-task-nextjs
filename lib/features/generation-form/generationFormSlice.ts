@@ -18,7 +18,7 @@ const initialState = slidesAdapter.getInitialState({
   description: '',
   color: '',
   slideCount: 0,
-  status: "idle"
+  status: ""
 })
 
 export const fetchSlidesAsync = createAsyncThunk(
@@ -63,7 +63,6 @@ export const slidesSlice = createAppSlice({
     selectSlides: slidesAdapter.getSelectors().selectAll,
     selectStatus: (generation) => generation.status,
     selectNextIndex: (generation) => slidesAdapter.getSelectors().selectTotal(generation) + 1,
-    selectColor: (generation) => generation.color
   },
 });
 
@@ -76,4 +75,4 @@ export const {
   slideUpdate,
   slidesUpdate } = slidesSlice.actions;
 
-export const { selectSlides, selectStatus, selectNextIndex, selectColor } = slidesSlice.selectors;
+export const { selectSlides, selectStatus, selectNextIndex } = slidesSlice.selectors;

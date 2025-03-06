@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import SlideForm from "../slide-form/SlideForm";
 import { Slide, slideRemoved } from "@/lib/features/generation-form/generationFormSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import { Trash2 } from "lucide-react";
 
 interface PlanSlideProps {
   item: Slide
@@ -20,27 +19,16 @@ export default function PlanSlide({ item }: PlanSlideProps) {
   return (
     <Card className="max-w-3xl">
       <CardHeader>
-      <CardTitle>
-        {item.title}
-      </CardTitle>
-      <CardDescription>
-        {item.id}
-        {item.content}
-    </CardDescription>
+        <CardTitle>
+          {item.title}
+        </CardTitle>
+        <CardDescription>
+          {item.content}
+        </CardDescription>
       </CardHeader>
-      <CardFooter className="flex justify-end gap-x-4">
-      <Dialog>
-          <DialogTrigger asChild>
-          <Button variant="outline">Edit</Button>
-          </DialogTrigger>
-          <DialogContent>
-          <DialogHeader>
-              <DialogTitle>About slide</DialogTitle>
-          </DialogHeader>
-          <SlideForm usage="edit" item={item} />
-          </DialogContent>
-      </Dialog>
-      <Button variant="outline" onClick={handleDelete}>Delete</Button>
+      <CardFooter className="flex justify-end gap-x-2">
+        <SlideForm usage="edit" item={item} />
+        <Button variant="ghost" onClick={handleDelete}><Trash2 /></Button>
       </CardFooter>
     </Card>
   )

@@ -1,9 +1,9 @@
 "use client"
- 
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
- 
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -18,7 +18,10 @@ import { Input } from "@/components/ui/input"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { selectNextIndex, Slide, slideAdded, slideUpdate } from "@/lib/features/generation-form/generationFormSlice"
 import { v6 as uuidv6 } from 'uuid';
- 
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Pencil, Plus } from "lucide-react"
+import { useState } from "react"
+
 const FormSchema = z.object({
   slide_description: z
     .string()
@@ -29,7 +32,7 @@ const FormSchema = z.object({
     .string()
     .min(2, {
       message: "To get better results input no less than 2 symbols.",
-  })
+    })
 })
 
 interface SlideFormProps {
@@ -48,10 +51,11 @@ export default function SlideForm({ usage, item }: SlideFormProps) {
 
   const dispatch = useAppDispatch();
   const nextSlideIndex = useAppSelector(selectNextIndex);
- 
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+
   function onSubmit(values: z.infer<typeof FormSchema>) {
     if (usage === 'add') {
-    const newId = uuidv6();
+      const newId = uuidv6();
 
       dispatch(slideAdded({
         id: newId,
@@ -68,45 +72,60 @@ export default function SlideForm({ usage, item }: SlideFormProps) {
           title: `${values.slide_title}`,
           content: `${values.slide_description}`
         }
-      })) 
+      }))
     }
+    setIsOpenDialog(false);
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="slide_title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="slide_description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Content</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Provide your presentation name, describe it in a few words. Provide color and slide count."
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">{usage === "edit" ? "Save": "Add"}</Button>
-      </form>
-    </Form>
+    <Dialog open={isOpenDialog} onOpenChange={() => {setIsOpenDialog(!isOpenDialog)}}>
+      <DialogTrigger asChild>
+        {usage === "edit" ?
+          <Button variant="ghost" onClick={() => {setIsOpenDialog(true)}}><Pencil /></Button> :
+          <Button variant="outline" onClick={() => {setIsOpenDialog(true)}}><Plus /> Add SLide</Button>
+        }
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>About slide</DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="slide_title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="slide_description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Content</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Provide your presentation name, describe it in a few words."
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">{usage === "edit" ? "Save" : "Add"}</Button>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+
   )
 }
